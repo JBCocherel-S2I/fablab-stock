@@ -87,7 +87,8 @@ quart d'heure.
 avec PBKDF2-SHA256. L'offre gratuite Cloudflare annonce 10 ms de temps processeur par requête.
 Mesures faites en ligne le 4 octobre 2026 : une requête ordinaire coûte 1 à 4 ms, et un hachage
 environ 20 ms pour 100000 itérations. Cloudflare a accepté ces dépassements, sans garantie pour
-l'avenir. Le réglage retenu est **25000** : la saisie d'un code tient dans la limite annoncée.
+l'avenir. Le réglage retenu est **25000** : la saisie d'un code coûte alors 10 à 15 ms (mesuré), à la
+limite de ce qui est annoncé. Pour rester nettement dessous, descendre à 10000.
 
 Après un changement de cette valeur, les codes déjà enregistrés restent valables avec leur ancien
 coût ; ils prennent le nouveau quand on les change depuis l'application.
