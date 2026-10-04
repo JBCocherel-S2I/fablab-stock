@@ -1,6 +1,7 @@
 // Point d'entrée de l'interface : état de session, navigation et cadre général.
 // Barre inférieure sur téléphone, barre latérale sur PC (7.2), même contenu.
 
+import "./https.js";
 import { appeler, ecouterAccesPerdu } from "./api.js";
 import { h, remplacer } from "./dom.js";
 import { afficherAdministration } from "./ecrans/administration.js";

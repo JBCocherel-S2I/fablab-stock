@@ -1,5 +1,7 @@
 // Page d'état du service (etat.html) : interroge /api/etat et remplit les trois casiers.
 
+import "./https.js";
+
 function remplir(id, { valeur, detail, enService }) {
   const casier = document.getElementById(id);
   casier.dataset.etat = enService ? "ok" : "alerte";

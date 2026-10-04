@@ -15,9 +15,9 @@
     {
       "binding": "DB",
       "database_name": "fablab-stock",
-      // Identifiant à remplacer après la création de la base D1 (voir README).
-      // Ce n'est pas un secret : il ne donne aucun accès sans le compte Cloudflare.
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      // Identifiant de la base D1 en ligne. Ce n'est pas un secret : il ne donne
+      // aucun accès sans le compte Cloudflare.
+      "database_id": "eeade972-9dfc-4c94-a1bf-2e55b2c634cd",
       "migrations_dir": "migrations"
     }
   ],

@@ -415,6 +415,32 @@ describe("limitation des essais (5.1)", () => {
   });
 });
 
+describe("HTTPS obligatoire en ligne", () => {
+  it("l'API refuse une requête en http:// hors développement local", async () => {
+    const banc = creerBanc();
+    const enClair = banc.client("192.0.2.1", "http://fablab-stock.exemple.workers.dev");
+    for (const [methode, chemin] of [["GET", "/api/session"], ["POST", "/api/acces/gestionnaire"]] as const) {
+      const r = await enClair(methode, chemin, { code: CODE_GESTIONNAIRE_INITIAL });
+      expect(r.statut).toBe(400);
+      expect(r.corps.code).toBe("HTTPS_REQUIS");
+      expect(r.cookie).toBeNull();
+    }
+    // Aucun essai n'a été compté, aucun code n'a été vérifié.
+    const essais = await baseDeTest().premier<{ n: number }>("SELECT COUNT(*) AS n FROM tentative");
+    expect(essais!.n).toBe(0);
+  });
+
+  it("l'API répond en https://, et en http:// sur ce PC ou sur le réseau local", async () => {
+    const banc = creerBanc();
+    for (const origine of ["https://fablab-stock.exemple.workers.dev", "http://localhost", "http://127.0.0.1:8787", "http://192.168.0.42:8787", "http://10.0.0.5:8787"]) {
+      expect((await banc.client("192.0.2.1", origine)("GET", "/api/session")).statut, origine).toBe(200);
+    }
+    // Une adresse publique qui ressemble à une adresse locale n'est pas acceptée.
+    expect((await banc.client("192.0.2.1", "http://192.168.0.42.exemple.com")("GET", "/api/session")).statut).toBe(400);
+    expect((await banc.client("192.0.2.1", "http://172.32.0.1")("GET", "/api/session")).statut).toBe(400);
+  });
+});
+
 describe("protection des écritures", () => {
   it("refuse une écriture venant d'un autre site", async () => {
     const c = creerBanc().client();

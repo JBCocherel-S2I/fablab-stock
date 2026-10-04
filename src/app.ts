@@ -18,10 +18,20 @@ import { routesMouvements } from "./routes/mouvements";
 
 const METHODES_DE_LECTURE = new Set(["GET", "HEAD", "OPTIONS"]);
 
+/** Ce PC, ou un appareil du même réseau local : HTTP y est permis pour le développement. */
+const HOTE_LOCAL =
+  /^(localhost|127\.\d+\.\d+\.\d+|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/;
+
 export function creerApp(horloge: () => Date = () => new Date()) {
   const app = new Hono<Environnement>();
 
   app.use("/api/*", async (c, next) => {
+    // En ligne, l'API ne répond qu'en HTTPS : un code ne doit jamais circuler en clair.
+    const adresse = new URL(c.req.url);
+    if (adresse.protocol === "http:" && !HOTE_LOCAL.test(adresse.hostname)) {
+      throw new ErreurApi(400, "HTTPS_REQUIS", "Utilisez l'adresse en https:// pour accéder à l'application.");
+    }
+
     // Protection contre les requêtes forgées depuis un autre site : une écriture
     // doit venir de l'application elle-même et être envoyée en JSON.
     if (!METHODES_DE_LECTURE.has(c.req.method)) {
