@@ -5,6 +5,10 @@ Spécifications : [Docs/specifications-gestion-stock-fablab.md](Docs/specificati
 
 Hébergement : Cloudflare Workers + base D1, offre gratuite.
 
+**Site en ligne : https://fablab-stock.fablab-stock.workers.dev**
+(QR code d'accès dans [Docs/qr-code/](Docs/qr-code/)). Chaque envoi sur la branche `main` redéploie le
+site automatiquement. Une nouvelle migration de la base s'applique à la main : `npm run migrer:prod`.
+
 ## Documentation
 
 - [Guide des enseignants](Docs/guide-enseignants.md)
