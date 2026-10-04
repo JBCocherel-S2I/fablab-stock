@@ -1,0 +1,32 @@
+// Configuration du Worker Cloudflare.
+// Aucun secret ici : ce fichier est publié sur GitHub.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fablab-stock",
+  "main": "src/index.ts",
+  // Ne pas dépasser la date connue du moteur de test local (sinon les tests se bloquent).
+  "compatibility_date": "2026-08-01",
+  // Fichiers statiques (interface). Leur diffusion est gratuite et illimitée.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fablab-stock",
+      // Identifiant à remplacer après la création de la base D1 (voir README).
+      // Ce n'est pas un secret : il ne donne aucun accès sans le compte Cloudflare.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // Coût du hachage des codes (PBKDF2), entre 1000 et 100000. À régler au
+    // déploiement selon le temps de calcul mesuré sur Cloudflare (voir README).
+    "ITERATIONS_HACHAGE": "100000"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

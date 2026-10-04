@@ -1,0 +1,23 @@
+# Dépendances
+node_modules/
+
+# État local de Wrangler (base D1 locale, caches)
+.wrangler/
+
+# Secrets locaux : ne jamais les envoyer sur GitHub
+.dev.vars
+.dev.vars.*
+!.dev.vars.exemple
+.env
+.env.*
+
+# Fichiers générés
+worker-configuration.d.ts
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Configuration locale de Claude Code
+.claude/

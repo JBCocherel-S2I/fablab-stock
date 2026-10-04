@@ -1,0 +1,199 @@
+/* Identité "casiers et rayonnage" (spécifications, section 7.1).
+   Toutes les couleurs passent par ces variables. Les contrastes sont vérifiés
+   par tests/contraste.test.ts. */
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/polices/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/polices/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bois: #E8D6B1;
+  --acier: #4A535A;
+  --encre: #1F1B16;
+  --texte-secondaire: #5A5148;
+  --papier: #FFFDF6;
+  --casier: #F6EBD3;
+  --planche: #A9824C;
+  --brique: #B3361F;
+
+  --trait: 3px;
+  --ombre: 8px 8px 0 var(--encre);
+  --gouttiere: 16px;
+  --police: "Atkinson Hyperlegible", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bois);
+  color: var(--encre);
+  font-family: var(--police);
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+:focus-visible {
+  outline: var(--trait) solid var(--encre);
+  outline-offset: 3px;
+}
+
+/* Bandeau en acier */
+.bandeau {
+  display: flex;
+  align-items: center;
+  gap: var(--gouttiere);
+  padding: var(--gouttiere);
+  background: var(--acier);
+  border-bottom: 5px solid var(--encre);
+}
+
+/* Étiquette papier en capitales espacées */
+.etiquette {
+  display: inline-block;
+  margin: 0;
+  padding: 8px 14px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contenu {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px var(--gouttiere) 48px;
+}
+
+.secondaire {
+  color: var(--texte-secondaire);
+}
+
+/* Étagère : un titre sur plaque d'acier, des casiers posés sur une planche */
+.etagere {
+  margin-top: 24px;
+}
+
+.etagere-titre {
+  display: flex;
+  align-items: center;
+  gap: var(--gouttiere);
+  margin: 0 0 20px;
+  font-size: 0.9375rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.etagere-titre span {
+  padding: 6px 12px;
+  background: var(--acier);
+  color: var(--papier);
+}
+
+.etagere-titre::after {
+  content: "";
+  flex: 1;
+  height: 4px;
+  background: var(--acier);
+}
+
+.rangee {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px var(--gouttiere);
+  padding: 0 8px 14px 0;
+  border-bottom: 14px solid var(--planche);
+  box-shadow: 0 var(--trait) 0 var(--encre);
+}
+
+/* Casiers à texte long (page d'état) : une colonne sur téléphone. */
+.rangee--large {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 720px) {
+  .rangee,
+  .rangee--large {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Casier */
+.casier {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+}
+
+.casier .etiquette {
+  display: block;
+  font-size: 0.875rem;
+  overflow-wrap: break-word;
+}
+
+.casier-valeur {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+}
+
+.casier-detail {
+  margin: 0;
+  color: var(--texte-secondaire);
+  font-size: 0.9375rem;
+  overflow-wrap: break-word;
+}
+
+.casier-etat {
+  margin: auto 0 0;
+  padding: 8px;
+  border: 2px solid var(--encre);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* État d'alerte : contour renforcé, bandeau plein et mention écrite,
+   jamais la couleur seule. */
+.casier[data-etat="alerte"] {
+  border: 6px solid var(--brique);
+  box-shadow: 8px 8px 0 var(--brique);
+}
+
+.casier[data-etat="alerte"] .casier-etat {
+  background: var(--brique);
+  border-color: var(--brique);
+  color: var(--papier);
+  font-weight: 700;
+}

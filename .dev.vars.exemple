@@ -1,0 +1,10 @@
+# Modèle du fichier .dev.vars (secrets pour le développement local uniquement).
+# Copiez ce fichier sous le nom .dev.vars et remplacez la valeur.
+# Le fichier .dev.vars est ignoré par git : il ne part jamais sur GitHub.
+#
+# En ligne, ce secret se définit dans Cloudflare, jamais dans un fichier du dépôt :
+#   npx wrangler secret put CODE_GESTIONNAIRE_INITIAL
+
+# Premier code gestionnaire (8 caractères au minimum). Il ne sert qu'à la toute
+# première ouverture du mode gestionnaire ; changez-le ensuite depuis l'application.
+CODE_GESTIONNAIRE_INITIAL=remplacez-moi

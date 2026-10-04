@@ -1,0 +1,1708 @@
+/* Composants de l'application : navigation, formulaires, tableaux, panneaux.
+   Mobile d'abord ; la barre latérale remplace la barre inférieure à partir de 900 px. */
+
+a {
+  color: var(--encre);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Cadre général ---------- */
+
+.cadre {
+  min-height: 100vh;
+  padding-bottom: 88px; /* place de la barre inférieure */
+}
+
+.bandeau {
+  justify-content: space-between;
+}
+
+.bandeau :focus-visible,
+.lateral :focus-visible {
+  outline-color: var(--papier);
+}
+
+.marque {
+  text-decoration: none;
+  color: var(--encre);
+}
+
+.lateral {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  background: var(--acier);
+  border-top: 5px solid var(--encre);
+}
+
+.lateral .marque,
+.lateral-secondaire {
+  display: none;
+}
+
+.nav-liens {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-lien {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 72px;
+  padding: 8px 4px;
+  color: var(--papier);
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav-lien[aria-current="page"] {
+  background: var(--papier);
+  color: var(--encre);
+  font-weight: 700;
+}
+
+.cadre > .contenu {
+  max-width: none;
+  margin: 0;
+}
+
+.titre-ecran {
+  margin-bottom: 20px;
+  font-size: 1.125rem;
+  letter-spacing: 0.16em;
+}
+
+@media (min-width: 900px) {
+  .cadre {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    padding-bottom: 0;
+  }
+
+  .cadre > .bandeau {
+    display: none;
+  }
+
+  .lateral {
+    position: sticky;
+    inset: 0 auto auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    padding: 20px 14px;
+    border-top: 0;
+    border-right: 5px solid var(--encre);
+    overflow-y: auto;
+  }
+
+  .lateral .marque {
+    display: block;
+    text-align: center;
+  }
+
+  .lateral-secondaire {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .nav-liens {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .nav-lien {
+    flex-direction: row;
+    gap: 6px;
+    justify-content: flex-start;
+    min-height: 52px;
+    padding: 8px 12px;
+    border: var(--trait) solid transparent;
+    font-size: 1.0625rem;
+    text-align: left;
+  }
+
+  .nav-lien[aria-current="page"] {
+    border-color: var(--encre);
+    box-shadow: 4px 4px 0 var(--encre);
+  }
+
+  .contenu {
+    padding: 28px 32px 48px;
+  }
+}
+
+/* Actions secondaires : mode gestionnaire, déconnexion (barre latérale ou menu). */
+
+.separateur {
+  height: 3px;
+  margin: 4px 0;
+  border: 0;
+  background: var(--papier);
+  opacity: 0.45;
+}
+
+.pousse-en-bas {
+  margin-top: auto;
+}
+
+.plaque-gestionnaire {
+  margin: 0;
+  padding: 10px 12px;
+  border: 2px solid var(--papier);
+  color: var(--papier);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Boutons ---------- */
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 10px 20px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: 6px 6px 0 var(--encre);
+  color: var(--encre);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.bouton:active {
+  translate: 3px 3px;
+  box-shadow: 3px 3px 0 var(--encre);
+}
+
+.bouton--plein {
+  background: var(--encre);
+  color: var(--papier);
+  box-shadow: 6px 6px 0 var(--acier);
+}
+
+.bouton--plein:active {
+  box-shadow: 3px 3px 0 var(--acier);
+}
+
+/* Bouton secondaire : sans ombre, casse normale. */
+.bouton--simple {
+  box-shadow: none;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.bouton--simple:active {
+  translate: none;
+  box-shadow: none;
+  background: var(--casier);
+}
+
+/* Bouton sur fond acier. */
+.bouton--acier {
+  min-height: 48px;
+  background: transparent;
+  border: 2px solid var(--papier);
+  box-shadow: none;
+  color: var(--papier);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.bouton--acier:active {
+  translate: none;
+  box-shadow: none;
+}
+
+.bouton--large {
+  width: 100%;
+}
+
+.bouton[disabled] {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.lien-discret {
+  padding: 12px 4px;
+  background: none;
+  border: 0;
+  color: var(--texte-secondaire);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton:active {
+    translate: none;
+  }
+}
+
+/* ---------- Formulaires ---------- */
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.champ label,
+.legende {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.champ input {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 14px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  border-radius: 0;
+  color: var(--encre);
+  font: inherit;
+  font-size: 1.125rem;
+}
+
+.champ-aide {
+  margin: 0;
+  color: var(--texte-secondaire);
+  font-size: 0.9375rem;
+}
+
+.champ-avec-bouton {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.actions > * {
+  flex: 1 1 140px;
+}
+
+/* Message : l'état est porté par un symbole et un contour, pas par la couleur seule. */
+.message {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+}
+
+.message--erreur {
+  border: 5px solid var(--brique);
+  font-weight: 700;
+}
+
+.message--erreur::before {
+  content: "! ";
+}
+
+.message--succes::before {
+  content: "✓ ";
+}
+
+/* ---------- Panneaux ---------- */
+
+.panneau {
+  padding: 18px;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+}
+
+.panneau > .etiquette {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+}
+
+.panneau > .champ-aide,
+dialog > .champ-aide {
+  margin-bottom: 18px;
+}
+
+.panneau-etroit {
+  max-width: 460px;
+  margin: 24px auto 0;
+}
+
+.grille-panneaux {
+  display: grid;
+  gap: 28px;
+  padding-right: 8px;
+}
+
+@media (min-width: 900px) {
+  .grille-panneaux {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .grille-liste {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+}
+
+/* ---------- Onglets ---------- */
+
+.onglets {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 24px;
+  padding: 0;
+  border-bottom: 5px solid var(--encre);
+  list-style: none;
+}
+
+.onglet {
+  display: block;
+  padding: 14px 18px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  border-bottom: 0;
+  margin-right: -3px;
+  color: var(--encre);
+  text-decoration: none;
+}
+
+.onglet[aria-current="page"] {
+  background: var(--encre);
+  color: var(--papier);
+  font-weight: 700;
+}
+
+/* ---------- Tableaux ---------- */
+
+.entete-liste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.entete-liste p {
+  margin: 0;
+}
+
+.cadre-tableau {
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+  overflow-x: auto;
+}
+
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableau th {
+  padding: 14px;
+  background: var(--acier);
+  color: var(--papier);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.tableau td {
+  padding: 10px 14px;
+  border-top: 2px solid var(--encre);
+  vertical-align: middle;
+}
+
+.tableau tr[aria-selected="true"] td {
+  background: var(--casier);
+}
+
+.tableau .cellule-action {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.tableau .nom {
+  font-weight: 700;
+}
+
+.pastille-etat {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 2px solid var(--encre);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Désactivé : contour en pointillés et fond bois, en plus du libellé. */
+.pastille-etat--inactif {
+  background: var(--bois);
+  border-style: dashed;
+}
+
+/* ---------- Fenêtres (code gestionnaire, menu) ---------- */
+
+dialog {
+  width: min(440px, calc(100vw - 32px));
+  padding: 18px;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+  color: var(--encre);
+}
+
+dialog::backdrop {
+  background: var(--encre);
+  opacity: 0.6;
+}
+
+dialog > .etiquette {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 0.9375rem;
+}
+
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------- Catalogue ---------- */
+
+/* Pastille de teinte : ronde pour un filament, rectangulaire pour une plaque.
+   Le contour encre la garde visible même pour une teinte très claire. */
+.teinte {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  background: var(--teinte);
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.teinte--plaque {
+  width: 40px;
+  height: 20px;
+  border-radius: 0;
+}
+
+.champ-teinte {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.champ .nuancier {
+  width: 56px;
+  min-height: 56px;
+  height: 56px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.champ .nuancier--plaque {
+  border-radius: 0;
+}
+
+.nuancier::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+/* Deux règles séparées : un sélecteur inconnu du navigateur annulerait toute la liste. */
+.nuancier::-webkit-color-swatch {
+  border: 0;
+}
+
+.nuancier::-moz-color-swatch {
+  border: 0;
+}
+
+.deux-colonnes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.champ-aide--bloc {
+  margin: -8px 0 18px;
+}
+
+/* Boutons radio présentés comme des boutons accolés. */
+.champ-segment {
+  min-width: 0;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+}
+
+.champ-segment .legende {
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.segment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.segment label {
+  position: relative;
+  flex: 1 1 0;
+  /* Un choix n'est pas une étiquette de champ : casse et graisse normales. */
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segment span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px 12px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  text-align: center;
+}
+
+/* Choix retenu : fond encre et texte gras, pas seulement une couleur. */
+.segment input:checked + span {
+  background: var(--encre);
+  color: var(--papier);
+  font-weight: 700;
+}
+
+.segment input:focus-visible + span {
+  outline: var(--trait) solid var(--encre);
+  outline-offset: 3px;
+}
+
+/* ---------- Saisie d'un mouvement (prélèvement, entrée de stock) ---------- */
+
+.champ select {
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 14px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  border-radius: 0;
+  color: var(--encre);
+  font: inherit;
+  font-size: 1.125rem;
+}
+
+.colonne-saisie {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.entete-saisie {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -24px calc(-1 * var(--gouttiere)) 24px;
+  padding: var(--gouttiere);
+  background: var(--acier);
+  border-bottom: 5px solid var(--encre);
+}
+
+.entete-saisie :focus-visible {
+  outline-color: var(--papier);
+}
+
+.entete-saisie a {
+  text-decoration: none;
+}
+
+/* Pictogrammes : couleurs par variables, teinte de la matière par --teinte. */
+.picto {
+  display: block;
+  flex: none;
+  width: 72px;
+  height: 72px;
+}
+
+.picto-support {
+  fill: var(--papier);
+  stroke: var(--encre);
+  stroke-width: 4;
+}
+
+.picto-matiere {
+  fill: var(--teinte);
+  stroke: var(--encre);
+  stroke-width: 3;
+}
+
+.picto-moyeu {
+  fill: var(--casier);
+  stroke: var(--encre);
+  stroke-width: 3;
+}
+
+.picto-sol {
+  stroke: var(--encre);
+  stroke-width: 4;
+}
+
+.carte-reference {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 8px 24px 0;
+  padding: 14px;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+  color: var(--encre);
+}
+
+.carte-reference p {
+  margin: 0;
+}
+
+.carte-reference-texte {
+  flex: 1;
+  min-width: 0;
+}
+
+.carte-reference-nom {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.carte-reference-stock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+}
+
+.carte-reference-stock strong {
+  font-size: 2.75rem;
+}
+
+/* Liste de choix d'une référence */
+.liste-references {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.choix-reference {
+  display: block;
+  text-decoration: none;
+}
+
+.choix-reference .carte-reference {
+  margin-bottom: 20px;
+}
+
+a.choix-reference:active .carte-reference {
+  translate: 3px 3px;
+  box-shadow: 5px 5px 0 var(--encre);
+}
+
+/* Stock épuisé : contour brique renforcé et mention écrite. */
+.choix-reference--epuise .carte-reference {
+  margin-bottom: 0;
+  border: 5px solid var(--brique);
+  box-shadow: none;
+}
+
+.mention-epuise {
+  margin: 0 8px 20px 0;
+  padding: 6px 12px;
+  background: var(--brique);
+  color: var(--papier);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Quantité : gros boutons adaptés au toucher */
+.quantite {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.quantite-bouton {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  color: var(--encre);
+  font: inherit;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.quantite-bouton[disabled] {
+  border-style: dashed;
+  color: var(--texte-secondaire);
+  cursor: not-allowed;
+}
+
+.champ .quantite-valeur {
+  width: 96px;
+  min-height: 64px;
+  padding: 4px;
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Barre de validation : fixée en bas sur téléphone, à la place de la navigation. */
+.barre-validation {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  padding: 12px var(--gouttiere) 20px;
+  background: var(--acier);
+  border-top: 5px solid var(--encre);
+}
+
+.barre-validation-resume {
+  margin: 0 0 10px;
+  color: var(--papier);
+  text-align: center;
+}
+
+.barre-validation-resume--alerte {
+  padding: 6px 8px;
+  background: var(--papier);
+  border: 4px solid var(--brique);
+  color: var(--encre);
+  font-weight: 700;
+}
+
+.barre-validation .bouton[disabled] {
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.barre-validation :focus-visible {
+  outline-color: var(--papier);
+}
+
+.formulaire-saisie {
+  padding-bottom: 150px; /* place de la barre de validation */
+}
+
+.cadre--saisie {
+  padding-bottom: 0;
+}
+
+.cadre--saisie > .bandeau,
+.cadre--saisie > .lateral {
+  display: none;
+}
+
+.confirmation {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .cadre--saisie > .lateral {
+    display: flex;
+  }
+
+  .entete-saisie {
+    margin: 0 auto 24px;
+    max-width: 560px;
+    padding: 12px;
+    border: var(--trait) solid var(--encre);
+  }
+
+  .barre-validation {
+    position: static;
+    margin-top: 12px;
+    padding: 16px;
+    border: var(--trait) solid var(--encre);
+  }
+
+  .barre-validation,
+  .formulaire-saisie > .colonne-saisie {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .formulaire-saisie {
+    padding-bottom: 0;
+  }
+}
+
+/* ---------- Tableau de bord : rayonnage et casiers (5.2) ---------- */
+
+.entete-stock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.entete-stock .titre-ecran {
+  margin-bottom: 0;
+}
+
+/* Groupe de choix dont la légende n'est pas affichée (elle reste lue par les lecteurs d'écran). */
+.champ-segment--discret {
+  margin-bottom: 0;
+}
+
+.champ-segment--discret .legende {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.champ-segment--discret .segment label {
+  flex: 0 1 auto;
+}
+
+.champ-segment--discret .segment span {
+  padding: 8px 18px;
+}
+
+.bascule-vue .segment {
+  gap: 0;
+}
+
+.bascule-vue .segment label + label span {
+  border-left: 0;
+}
+
+.filtres-stock {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.filtres-volet summary {
+  padding: 12px 14px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filtres-contenu {
+  padding: 14px 14px 0;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  border-top: 0;
+}
+
+.filtres-selecteurs,
+.filtres-dates {
+  display: contents;
+}
+
+.compte-stock {
+  margin: 0 0 4px;
+  color: var(--texte-secondaire);
+}
+
+/* Brique sur bois : seulement en grand texte gras (contraste 4,24, voir tests). */
+.alerte-texte {
+  color: var(--brique);
+  font-size: 1.1875rem;
+  font-weight: 700;
+}
+
+.rayon {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px var(--gouttiere);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* La planche de chaque casier déborde sur la gouttière pour former une planche continue. */
+  overflow: hidden;
+}
+
+.case {
+  position: relative;
+  display: flex;
+  padding: 0 8px 28px 0;
+}
+
+.case::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: calc(-1 * var(--gouttiere));
+  bottom: 0;
+  height: 20px;
+  background: var(--planche);
+  border-top: var(--trait) solid var(--encre);
+  border-bottom: var(--trait) solid var(--encre);
+}
+
+.casier--stock {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  color: var(--encre);
+  text-decoration: none;
+}
+
+.casier--stock:active {
+  translate: 3px 3px;
+  box-shadow: 5px 5px 0 var(--encre);
+}
+
+.casier--stock[data-etat="alerte"]:active {
+  box-shadow: 5px 5px 0 var(--brique);
+}
+
+/* Sur téléphone, le casier est étroit : marges et espacements resserrés pour
+   que le nom et l'état tiennent sur une ligne. */
+.casier--stock {
+  gap: 10px;
+  padding: 8px;
+}
+
+.casier--stock .etiquette {
+  padding: 6px 8px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+}
+
+.casier--stock .casier-etat {
+  padding: 8px 2px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+}
+
+.casier-nom,
+.casier-spec {
+  display: block;
+}
+
+.casier-spec {
+  color: var(--texte-secondaire);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.casier-corps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.casier-corps .picto {
+  width: 58px;
+  height: 58px;
+}
+
+.casier-quantite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: var(--texte-secondaire);
+  line-height: 1.1;
+}
+
+.casier-quantite {
+  min-width: 0;
+  font-size: 0.9375rem;
+}
+
+.casier-quantite strong {
+  color: var(--encre);
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.casier--stock .casier-etat {
+  display: block;
+}
+
+.pastille-etat--alerte {
+  background: var(--brique);
+  border-color: var(--brique);
+  color: var(--papier);
+}
+
+.tableau--stock .picto {
+  width: 44px;
+  height: 44px;
+}
+
+/* En-tête de colonne cliquable pour trier */
+.tri {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.tableau th .tri:focus-visible {
+  outline-color: var(--papier);
+}
+
+/* Pastille du nombre de références à commander, dans la navigation */
+.pastille-commande {
+  display: inline-block;
+  min-width: 28px;
+  padding: 1px 7px;
+  background: var(--brique);
+  border: 2px solid var(--papier);
+  color: var(--papier);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .filtres-stock {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Sur PC, les filtres sont visibles en permanence. */
+  .filtres-volet summary {
+    display: none;
+  }
+
+  .filtres-stock .filtres-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+    padding: 0;
+    background: none;
+    border: 0;
+  }
+
+  .champ--ligne {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .champ--ligne select,
+  .champ--ligne input {
+    width: auto;
+    min-height: 48px;
+  }
+
+  .nav-lien .pastille-commande {
+    margin-left: auto;
+  }
+
+  .casier--stock {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .casier--stock .etiquette {
+    padding: 8px 10px;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+  }
+
+  .casier--stock .casier-etat {
+    padding: 8px;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+  }
+
+  .casier-corps .picto {
+    width: 76px;
+    height: 76px;
+  }
+
+  .casier-quantite {
+    font-size: 1rem;
+  }
+
+  .casier-quantite strong {
+    font-size: 3.25rem;
+  }
+
+  .compte-stock {
+    text-align: right;
+  }
+
+  .rayon {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .rayon {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1400px) {
+  .rayon {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1700px) {
+  .rayon {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .casier--stock:active {
+    translate: none;
+  }
+}
+
+/* ---------- Historique (5.5) ---------- */
+
+.filtres-historique {
+  margin-bottom: 20px;
+}
+
+.pied-historique {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.pied-historique p {
+  margin: 0;
+}
+
+.tableau--historique .detail {
+  display: block;
+  font-size: 0.9375rem;
+}
+
+/* Nature du mouvement : chaque nature a son libellé et son propre contour. */
+.pastille-nature {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 2px solid var(--encre);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pastille-nature--entree {
+  background: var(--acier);
+  border-color: var(--acier);
+  color: var(--papier);
+}
+
+.pastille-nature--annulation {
+  border-color: var(--brique);
+  color: var(--brique);
+}
+
+.pastille-nature--correction {
+  border-style: dashed;
+}
+
+.mention-annule {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+@media (min-width: 900px) {
+  .filtres-historique .filtres-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0 16px;
+    border-top: var(--trait) solid var(--encre);
+  }
+
+  .filtres-historique .champ select,
+  .filtres-historique .champ input {
+    min-height: 48px;
+  }
+}
+
+/* Sur téléphone, chaque ligne devient une fiche : plus de défilement horizontal. */
+@media (max-width: 899px) {
+  .tableau--fiches thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .tableau--fiches,
+  .tableau--fiches tbody,
+  .tableau--fiches tr,
+  .tableau--fiches td {
+    display: block;
+    width: auto;
+  }
+
+  .tableau--fiches tr {
+    padding: 10px 14px;
+    border-top: var(--trait) solid var(--encre);
+  }
+
+  .tableau--fiches tr:first-child {
+    border-top: 0;
+  }
+
+  .tableau--fiches td {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 10px;
+    padding: 4px 0;
+    border-top: 0;
+  }
+
+  .tableau--fiches td[data-libelle]::before {
+    content: attr(data-libelle);
+    color: var(--texte-secondaire);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tableau--fiches td.cellule-action {
+    display: block;
+    padding-top: 8px;
+  }
+
+  .tableau--fiches td.cellule-action:empty {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Les libellés de matière sont longs : la liste reste compacte dans la barre de filtres. */
+  .filtres-historique .champ select {
+    max-width: 230px;
+  }
+}
+
+/* ---------- À commander : bon de réapprovisionnement (5.6) ---------- */
+
+.actions-bon {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.bon {
+  margin-right: 8px;
+  padding: 20px 16px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  box-shadow: var(--ombre);
+}
+
+.bon-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 5px solid var(--encre);
+}
+
+.bon-entete h2 {
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bon-entete p {
+  margin: 4px 0 0;
+}
+
+.bon-date {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.125rem;
+}
+
+.bon-date span {
+  color: var(--texte-secondaire);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bon-note {
+  margin: 16px 0 0;
+  font-size: 0.9375rem;
+}
+
+/* Tableau du bon : sur papier, sans bandeau acier. */
+.tableau--bon th {
+  background: none;
+  border-bottom: var(--trait) solid var(--encre);
+  color: var(--encre);
+}
+
+.tableau--bon td {
+  border-top: 0;
+  border-bottom: 2px solid var(--encre);
+}
+
+.tableau--bon .teinte {
+  flex: none;
+  margin-right: 10px;
+}
+
+.matiere-bon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.matiere-bon .detail {
+  display: block;
+  font-size: 0.9375rem;
+}
+
+/* Stock bas : en brique et en gras, dans la colonne nommée « Stock ». */
+.stock-bas {
+  color: var(--brique);
+  font-size: 1.1875rem;
+  font-weight: 700;
+}
+
+.champ-quantite-commande {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantite-commande {
+  width: 84px;
+  min-height: 52px;
+  padding: 4px 8px;
+  background: var(--casier);
+  border: var(--trait) solid var(--encre);
+  border-radius: 0;
+  color: var(--encre);
+  font: inherit;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.quantite-commande[aria-invalid="true"] {
+  border: 5px solid var(--brique);
+}
+
+.bouton[aria-disabled="true"] {
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (min-width: 900px) {
+  .bon {
+    padding: 28px 32px;
+  }
+
+  .bon-entete h2 {
+    font-size: 1.5rem;
+  }
+
+  .bon-date {
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 899px) {
+  .tableau--bon td {
+    align-items: center;
+    border-bottom: 0;
+  }
+
+  .tableau--bon tr {
+    border-top: 2px solid var(--encre);
+  }
+}
+
+/* ---------- Impression : seul le bon est imprimé ---------- */
+
+@media print {
+  @page {
+    margin: 15mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+  }
+
+  .cadre {
+    display: block;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .cadre > .bandeau,
+  .lateral,
+  .sans-impression,
+  dialog {
+    display: none !important;
+  }
+
+  .cadre > .contenu {
+    padding: 0;
+  }
+
+  .bon {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* Sur papier, le tableau reprend sa forme de tableau, même imprimé depuis un téléphone. */
+  .tableau--bon {
+    display: table;
+    width: 100%;
+  }
+
+  .tableau--bon thead {
+    position: static;
+    display: table-header-group;
+    width: auto;
+    height: auto;
+    clip-path: none;
+  }
+
+  .tableau--bon tbody {
+    display: table-row-group;
+  }
+
+  .tableau--bon tr {
+    display: table-row;
+    padding: 0;
+    border: 0;
+    break-inside: avoid;
+  }
+
+  .tableau--bon td,
+  .tableau--bon th {
+    display: table-cell;
+    padding: 6pt 8pt;
+    border-bottom: 1pt solid #000;
+  }
+
+  .tableau--bon td[data-libelle]::before {
+    content: none;
+  }
+
+  .quantite-commande {
+    width: 48pt;
+    min-height: 0;
+    background: none;
+    border: 1pt solid #000;
+  }
+
+  .teinte {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+@media (max-width: 899px) {
+  /* Le libellé d'une fiche garde la même graisse, quelle que soit la mise en valeur de la valeur. */
+  .tableau--fiches td[data-libelle]::before {
+    font-weight: 400;
+  }
+}
+
+/* ---------- Finitions : accessibilité et mouvement ---------- */
+
+/* Visible seulement quand il reçoit le focus au clavier. */
+.lien-evitement {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  padding: 12px 16px;
+  background: var(--papier);
+  border: var(--trait) solid var(--encre);
+  color: var(--encre);
+  font: inherit;
+  font-weight: 700;
+  translate: 0 -200%;
+}
+
+.lien-evitement:focus-visible {
+  translate: 0 0;
+}
+
+.contenu:focus {
+  outline: none;
+}
+
+/* Texte d'exemple dans un champ : même contraste que le texte secondaire. */
+::placeholder {
+  color: var(--texte-secondaire);
+  opacity: 1;
+}
+
+/* Une unité quitte le casier (prélèvement) ou y arrive (entrée de stock). */
+.carte-reference {
+  position: relative;
+}
+
+.unite-mobile {
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  background: var(--teinte);
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.unite-mobile--plaque {
+  left: 22px;
+  width: 56px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 0;
+}
+
+.unite-mobile--depart {
+  animation: unite-depart 700ms ease-out 150ms 1 both;
+}
+
+.unite-mobile--arrivee {
+  animation: unite-depart 700ms ease-in 150ms 1 reverse both;
+}
+
+@keyframes unite-depart {
+  from {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  to {
+    opacity: 0;
+    translate: 0 -64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unite-mobile {
+    display: none;
+  }
+}
+
+@media print {
+  .lien-evitement {
+    display: none;
+  }
+}

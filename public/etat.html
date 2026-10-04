@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4A535A">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icones/icone.svg" type="image/svg+xml">
+    <link rel="icon" href="/icones/icone-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/icones/icone-180.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Fablab Stock">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="preload" href="/polices/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/polices/atkinson-hyperlegible-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <title>État du service · Fablab Stock</title>
+    <link rel="stylesheet" href="/styles/base.css">
+  </head>
+  <body>
+    <header class="bandeau">
+      <h1 class="etiquette">Fablab Stock</h1>
+    </header>
+
+    <main class="contenu">
+      <p>État du service : application, base de données et heure du serveur.</p>
+      <p><a href="/">Retour à l'application</a></p>
+
+      <section class="etagere" aria-labelledby="titre-socle">
+        <h2 class="etagere-titre" id="titre-socle"><span>Étagère · Service</span></h2>
+        <div class="rangee rangee--large" id="etat" aria-live="polite">
+          <article class="casier" id="casier-application">
+            <h3 class="etiquette">Application</h3>
+            <p class="casier-valeur">…</p>
+            <p class="casier-detail">Vérification en cours</p>
+            <p class="casier-etat">Vérification</p>
+          </article>
+          <article class="casier" id="casier-base">
+            <h3 class="etiquette">Base de données</h3>
+            <p class="casier-valeur">…</p>
+            <p class="casier-detail">Vérification en cours</p>
+            <p class="casier-etat">Vérification</p>
+          </article>
+          <article class="casier" id="casier-heure">
+            <h3 class="etiquette">Heure serveur</h3>
+            <p class="casier-valeur">…</p>
+            <p class="casier-detail">Vérification en cours</p>
+            <p class="casier-etat">Vérification</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/scripts/etat.js"></script>
+  </body>
+</html>

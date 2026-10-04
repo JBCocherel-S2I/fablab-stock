@@ -1,0 +1,20 @@
+{
+  "name": "Fablab Stock",
+  "short_name": "Fablab Stock",
+  "description": "Suivi du stock de filament et de plaques du fablab.",
+  "lang": "fr",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#E8D6B1",
+  "theme_color": "#4A535A",
+  "icons": [
+    { "src": "/icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
