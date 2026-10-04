@@ -1,0 +1,4 @@
+# Fins de ligne identiques sur tous les postes (Windows compris).
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
