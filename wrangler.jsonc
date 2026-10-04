@@ -22,9 +22,9 @@
     }
   ],
   "vars": {
-    // Coût du hachage des codes (PBKDF2), entre 1000 et 100000. À régler au
-    // déploiement selon le temps de calcul mesuré sur Cloudflare (voir README).
-    "ITERATIONS_HACHAGE": "100000"
+    // Coût du hachage des codes (PBKDF2), entre 1000 et 100000. Réglé d'après le
+    // temps de calcul mesuré sur Cloudflare (voir README) : environ 5 ms par hachage.
+    "ITERATIONS_HACHAGE": "25000"
   },
   "observability": {
     "enabled": true

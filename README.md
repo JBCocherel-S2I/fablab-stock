@@ -83,11 +83,14 @@ Les durées et limites sont regroupées dans `src/acces/reglages.ts` : session d
 gestionnaire refermé après 15 minutes sans action, 5 essais de code par appareil et 30 au total par
 quart d'heure.
 
-**À faire au déploiement : régler `ITERATIONS_HACHAGE`** (dans `wrangler.jsonc`). Les codes sont
-hachés avec PBKDF2-SHA256. La valeur 100000 est la plus robuste, mais son calcul dépasse la limite de
-10 ms de temps processeur par requête de l'offre gratuite Cloudflare (mesuré en local : environ 240 ms
-dans le moteur Workers). Il faudra mesurer sur Cloudflare et choisir la valeur la plus haute qui passe.
-Les codes déjà enregistrés restent valables après un changement de cette valeur.
+**Coût du hachage des codes : `ITERATIONS_HACHAGE`** (dans `wrangler.jsonc`). Les codes sont hachés
+avec PBKDF2-SHA256. L'offre gratuite Cloudflare annonce 10 ms de temps processeur par requête.
+Mesures faites en ligne le 4 octobre 2026 : une requête ordinaire coûte 1 à 4 ms, et un hachage
+environ 20 ms pour 100000 itérations. Cloudflare a accepté ces dépassements, sans garantie pour
+l'avenir. Le réglage retenu est **25000** : la saisie d'un code tient dans la limite annoncée.
+
+Après un changement de cette valeur, les codes déjà enregistrés restent valables avec leur ancien
+coût ; ils prennent le nouveau quand on les change depuis l'application.
 
 ## Essai sur un téléphone, avant la mise en ligne
 
